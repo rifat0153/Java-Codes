@@ -1,0 +1,8 @@
+package assgn1;
+
+/* The classical ”Hello World!” program. */
+public class Hello_World {
+public static void main(String[] args) {
+System.out.println("Hello World!"); // Print
+}
+}
