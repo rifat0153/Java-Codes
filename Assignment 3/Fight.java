@@ -23,19 +23,20 @@ public class Fight {
 
 
 
-	public void startFight(int playerdice, int enemydice) {
+	public void startFight() {
 		
 		Random rand = new Random();
-		// nocp1 = no of chance for player 1 to attack
-		int nocp1 = this.player1.getWeapon().getPower();
-		int nocp2 = rand.nextInt(2) + 2;     // getting value 2-4 for enemy damage
-	
+		
+		
+		int playerdice = this.player1.getDice();
+		int enemydice = this.player2.getDice();
 		
 		int playerpoints = 0;
 		int enemypoints = 0;
 		int hit;
 
 		int mode = 0;
+		int round = 1;
 		
 //		if( this.player1.getType() == "Enemy") {
 //			mode = 0;
@@ -51,9 +52,10 @@ public class Fight {
 		// Fight Continues until loop breaks 
 		while(true) {
 			
-			System.out.println("\n\nBegining PXP  :"+ this.pxp);
+			System.out.println("ROUND :"+ round + " begins");
+			System.out.println("\nBegining PXP  :"+ this.pxp);
 			System.out.println("Begining EXP  :"+ this.exp);
-			System.out.println("\n\n");
+		
 
 			
 			
@@ -79,21 +81,28 @@ public class Fight {
 				}
 				
 				
-				
+				// Checking if ENEMY defense is penetrated
 				if( playerpoints > enemypoints) {
 					
 					System.out.println(this.player1.getName() +" strike has gone through and hit "+this.player2.getName());
 					
-					
-					for( int i=0; i<nocp1; i++) {
-						hit = hit + rand.nextInt(6) + 1;
+					// Dealing with hero having no weapon
+					if( this.player1.getWeapon() != null) {
+						for( int i=0; i<this.player1.getWeapon().getPower(); i++) {
+							hit = hit + rand.nextInt(6) + 1;
+						}
 					}
+					else {
+						hit = rand.nextInt(2) + 2;
+					}
+
 					
 					System.out.println(" P hitpoints :"+hit);
 					exp = exp - hit;
 					
 					if( exp<0 ) {
 						System.out.println(this.player2.getName()+" Lost the Game");
+						System.out.println("ROUND :"+ round + " ENDS");
 						break;
 					}
 					else {
@@ -108,6 +117,7 @@ public class Fight {
 				
 				//Enemy Attacks
 				
+				// Resetting values
 				playerpoints = 0;
 				enemypoints = 0;
 				hit = 0;
@@ -123,11 +133,12 @@ public class Fight {
 					System.out.println(" P roles :"+playerpoints);
 				}
 
+				// Checking if HERO defense is penetrated
 				if( enemypoints > playerpoints) {
 					
 					System.out.println(this.player2.getName() +" blow has gone through and hit "+this.player1.getName());
 					
-					hit = rand.nextInt(14) + 1;			// Enemy Hit point
+					hit = rand.nextInt(14) + 1;			// Enemy Hit point is randomly generated between 0-14
 		
 					pxp = pxp - hit;
 					
@@ -135,6 +146,7 @@ public class Fight {
 					
 					if( pxp<0 ) {
 						System.out.println(this.player1.getName()+" is DEAD");
+						System.out.println("ROUND :"+ round + " ENDS");
 						break;
 					}
 					else {
@@ -148,64 +160,39 @@ public class Fight {
 				
 			}
 			
-			System.out.println("\n\nEND PXP  :"+ this.pxp);
+			System.out.println("END PXP  :"+ this.pxp);
 			System.out.println("END EXP  :"+ this.exp);
+			
+			System.out.println("ROUND :"+ round + " ENDS\n\n");
+			
+			round++;
 		}
 
-
-
-		
-		
+	
 	}
 
 
-
-
-
-
+	
+	
 	public Player getPlayer1() {
 		return player1;
 	}
-
-
-
-
-
 
 	public void setPlayer1(Player player1) {
 		this.player1 = player1;
 	}
 
-
-
-
-
-
 	public Player getPlayer2() {
 		return player2;
 	}
-
-
-
-
-
 
 	public void setPlayer2(Player player2) {
 		this.player2 = player2;
 	}
 
-
-
-
-
-
 	public int getPxp() {
 		return pxp;
 	}
-
-
-
-
 
 
 	public void setPxp(int pxp) {
@@ -213,24 +200,14 @@ public class Fight {
 	}
 
 
-
-
-
-
 	public int getExp() {
 		return exp;
 	}
-
-
-
-
 
 
 	public void setExp(int exp) {
 		this.exp = exp;
 	}
 	
-	
 
-	
 }
